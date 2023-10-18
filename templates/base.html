@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Soul Finders | AI Powered Matchmaking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+            <span class="app-name">Soul Finders</span>
+            <ul>
+                <li><a href="#">Signup</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </div>
+    
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
