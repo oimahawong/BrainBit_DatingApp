@@ -43,8 +43,12 @@ def init_new_env():
 #So.. we redirect to the endpoint we want to load the base page
 @app.route('/') #endpoint
 def index():
-    return redirect('/static/index.html')
+    return render_template('index.html')
 
+# Another redirect to the page containing the movie itself    
+@app.route('/video')
+def video():
+    return render_template('video.html')
 
 @app.route("/secure_api/<proc_name>",methods=['GET', 'POST'])
 @token_required
@@ -67,7 +71,6 @@ def exec_secure_proc(proc_name):
         return json_response(status_=500 ,data=ERROR_MSG)
 
     return resp
-
 
 
 @app.route("/open_api/<proc_name>",methods=['GET', 'POST'])
