@@ -1,4 +1,4 @@
-from flask import request, g
+from flask import request, g, redirect
 
 from tools.logging import logger
 
@@ -16,4 +16,4 @@ def handle_request():
     cur.execute("insert into users values ( 1, \"" + name_from_form + "\", \"" + email_from_form + "\" );")
     g.db.commit()
     
-    return "Signup complete"
+    return redirect('/video')
