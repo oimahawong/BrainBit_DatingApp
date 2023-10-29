@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Placeholder to display User ID until we figure out what to do with it -->
+<body>{{ user_id }}</body>
+
 <video id="video" width="320" height="240" controls>
 		  <source src="{{ url_for('static', filename='movie.mp4') }}" type="video/mp4">
 			Your browser does not support the video tag.

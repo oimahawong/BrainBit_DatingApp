@@ -12,6 +12,8 @@ def get_db_instance():
 if __name__ == "__main__":
     db, cur = get_db_instance()
 
-    # User data databse should include fields for User ID, name, and email
+    # User database should include fields for user ID, name, and email
     cur.execute("create table users ( id int, name varchar(255), email varchar(255) );")
+    # Also create a dummy user at ID 0 to keep the table from being called while empty
+    cur.execute("insert into users values (0, \"\", \"\");")
     db.commit()

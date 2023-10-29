@@ -1,5 +1,6 @@
 from flask import request, g, redirect
 
+from app import video, signup
 from tools.logging import logger
 
 def handle_request():
@@ -12,8 +13,19 @@ def handle_request():
     # Retrieve a cursor for the app database
     cur = g.db.cursor()
     
-    # Insert the new user's name and email into the users table
-    cur.execute("insert into users values ( 1, \"" + name_from_form + "\", \"" + email_from_form + "\" );")
+    # Check for duplicate email addresses
+    cur.execute("select count(1) from users where email = \"" + email_from_form + "\";")
+    if(cur.fetchone()[0] == 1):
+      logger.debug("Duplicate user!")
+      return signup(error=1)
+    
+    # Determine a user ID for the new user
+    cur.execute("select max(id) from users")
+    id_num = cur.fetchone()[0] + 1
+    
+    # Insert the new user's ID, name, and email into the users table
+    logger.debug(f"Creating user {name_from_form} with id {id_num} and email {email_from_form}")
+    cur.execute("insert into users values ( " + str(id_num) + ", \"" + name_from_form + "\", \"" + email_from_form + "\" );")
     g.db.commit()
     
-    return redirect('/video')
+    return video(user_id=id_num)
