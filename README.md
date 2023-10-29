@@ -20,7 +20,7 @@ source /path/to/venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
-5. Initialize the database:
+5. Initialize the database. Database can be reset by deleting `users.sqlite3` and re-running the below command:
 ```
 python db_con.py
 ```
