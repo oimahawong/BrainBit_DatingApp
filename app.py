@@ -47,12 +47,12 @@ def index():
 
 # Another redirect to the page containing the movie itself    
 @app.route('/video')
-def video():
-    return render_template('video.html')
+def video(user_id=0):
+    return render_template('video.html', user_id=user_id)
 
 @app.route('/signup')
-def signup():
-    return render_template('signup.html')
+def signup(error=0):
+    return render_template('signup.html', error=error)
 
 @app.route("/secure_api/<proc_name>",methods=['GET', 'POST'])
 @token_required
