@@ -17,7 +17,18 @@
 					console.log("error");
 				console.log(response);});
 		}
+    function video_ended() {
+        $.post("/open_api/stop_movie", { "data":"somedata", "any":"data"}, function(data, textStatus) {
+			console.log("stopping hb");
+			console.log(data);
+        }, "json").fail(function(response) {
+            // You might want to change this message to be more descriptive of the error.
+
+        	console.log(response);
+        });
+    }
 	</script>
+
 
 
 	<video id="video" width="320" height="240" controls>
@@ -29,6 +40,9 @@
 	<script>
 		video.addEventListener("play", (event) => {
 			play_start();
+		});
+		video.addEventListener("ended", (event) => {
+			video_ended();
 		});
 	</script>
 
