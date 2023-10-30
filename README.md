@@ -26,11 +26,20 @@ python db_con.py
 ```
 
 ### Running the server
-1. Start the server:
+1. Configure based on whether or not you're running on Windows with the BrainBit SDK installed. Comment out lines 10, 36, and 37 in app.py if running in an environment without the BrainBit SDK, uncomment them if BrainBit functionality is needed:
+```
+from tools.eeg import get_head_band_sensor_object
+```
+and
+```
+if 'hb' not in g:
+    g.hb = get_head_band_sensor_object()
+```
+3. Start the server:
 ```
 python app.py
 ```
-2. Access the server by visiting `http://localhost` in a web browser.
+3. Access the server by visiting `http://localhost` in a web browser.
 
 ##### Available webpages
 - `/`: The splash page. Redirects to other pages as needed.
