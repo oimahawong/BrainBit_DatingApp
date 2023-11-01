@@ -22,8 +22,14 @@
 			console.log("stopping hb");
 			console.log(data);
         }, "json").fail(function(response) {
-            // You might want to change this message to be more descriptive of the error.
-
+        	console.log(response);
+        });
+    }
+    function video_paused(){
+            $.post("/open_api/pause_movie", { "data":"somedata", "any":"data"}, function(data, textStatus) {
+			console.log("stopping hb");
+			console.log(data);
+        }, "json").fail(function(response) {
         	console.log(response);
         });
     }
@@ -43,6 +49,9 @@
 		});
 		video.addEventListener("ended", (event) => {
 			video_ended();
+		});
+		video.addEventListener("pause", (event) => {
+			video_paused();
 		});
 	</script>
 
