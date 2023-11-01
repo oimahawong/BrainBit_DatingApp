@@ -8,7 +8,7 @@ import pickle
 
 def handle_request():
     if g.hb == None:
-        return ["Data not Ended"]
+        return ["Stop, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)
     with open('output_pickle.pkl', 'wb') as file:

@@ -64,7 +64,7 @@ max_distance = max(distances)
 match_percentages = [100 * (1 - (distance - min_distance) / (max_distance - min_distance)) for distance in distances]
 
 for idx, match_percentage in enumerate(match_percentages, 1):
-    print(f"Pair {idx}: {match_percentage}% match")
+    print(f"Set {idx}: {match_percentage}% match")
 
 # Calculate average match percentage
 average_match_percentage = sum(match_percentages) / len(match_percentages)

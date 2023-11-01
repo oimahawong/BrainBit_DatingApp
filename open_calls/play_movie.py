@@ -8,7 +8,7 @@ import io
 
 def handle_request():
     if g.hb == None:
-        return ["Data not Flowing"]
+        return ["Play, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStartSignal)
 
