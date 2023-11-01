@@ -1,77 +1,61 @@
-from tools.bucket import download_from_bucket
+from tools.bucket import download_from_bucket, download_all_from_bucket
+from google.cloud import storage
 import pickle
 import re
 import math
 import os
 
 
-download_from_bucket('brainbit_bucket', 'bwdata_test1.pkl', 'blobs1')
-download_from_bucket('brainbit_bucket', 'bwdata_test2.pkl', 'blobs2')
+def process_blob(blob_path):
+    with open(blob_path, 'rb') as file:
+        data = pickle.load(file)
+    matches = re.findall(r'O1=([\d\.-]+),\s*O2=([\d\.-]+),\s*T3=([\d\.-]+),\s*T4=([\d\.-]+)', data)
+    return [tuple(map(float, match)) for match in matches]
 
-# Unpickle data downloaded from bucket
-with open('blobs1', 'rb') as file:
-    data1 = pickle.load(file)
-    #print(data1)
+destination_folder = "blobs_tmp"
+blob_paths = download_all_from_bucket('brainbit_bucket', destination_folder)
 
-# Unpickle data downloaded from bucket
-with open('blobs2', 'rb') as file:
-    data2 = pickle.load(file)
-    #print(data2)
+client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-65e54374e3c7.json')
 
-matches1 = re.findall(r'O1=([\d\.-]+),\s*O2=([\d\.-]+),\s*T3=([\d\.-]+),\s*T4=([\d\.-]+)', data1)
-matches2 = re.findall(r'O1=([\d\.-]+),\s*O2=([\d\.-]+),\s*T3=([\d\.-]+),\s*T4=([\d\.-]+)', data2)
+bucket = client.bucket('brainbit_bucket')
 
-data1_o1 = []
-data1_o2 = []
-data1_t3 = []
-data1_t4 = []
+blobs = list(bucket.list_blobs())
 
-data2_o1 = []
-data2_o2 = []
-data2_t3 = []
-data2_t4 = []
+reference_blob_path = os.path.join(destination_folder, 'bwdata_test1.pkl')
+reference_data = process_blob(reference_blob_path)
 
-for match in matches1:
-    o1, o2, t3, t4 = match
-    data1_o1.append(float(o1))
-    data1_o2.append(float(o2))
-    data1_t3.append(float(t3))
-    data1_t4.append(float(t4))
+all_distances = []
+for blob_path in blob_paths:
+    if blob_path == reference_blob_path:
+        continue
+    current_data = process_blob(blob_path)
+    distances = []
 
-for match in matches2:
-    o1, o2, t3, t4 = match
-    data2_o1.append(float(o1))
-    data2_o2.append(float(o2))
-    data2_t3.append(float(t3))
-    data2_t4.append(float(t4))
+    for ref_set, cur_set in zip(reference_data, current_data):
+        distance = math.sqrt(sum([(i-j)**2 for i, j in zip(ref_set, cur_set)]))
+        distances.append(distance)
 
-distances = []
+    all_distances.extend(distances)
+    average_distance = sum(distances) / len(distances)
+    print(f"Average distance for {blob_path}: {average_distance}")
 
-for o1_1, o2_1, t3_1, t4_1, o1_2, o2_2, t3_2, t4_2 in zip(data1_o1, data1_o2, data1_t3, data1_t4, data2_o1, data2_o2, data2_t3, data2_t4):
-    distance = math.sqrt((o1_1 - o1_2)**2 + (o2_1 - o2_2)**2 + (t3_1 - t3_2)**2 + (t4_1 - t4_2)**2)
-    distances.append(distance)
+min_distance = min(all_distances)
+max_distance = max(all_distances)
 
-for idx, distance in enumerate(distances, 1):
-    print(f"Set {idx}: {distance}")
+for blob_path in blob_paths:
+    if blob_path == reference_blob_path:
+        continue
 
-average_distance = sum(distances) / len(distances)
+    current_data = process_blob(blob_path)
+    distances = [math.sqrt(sum([(i - j) ** 2 for i, j in zip(ref_set, cur_set)])) for ref_set, cur_set in
+                 zip(reference_data, current_data)]
+    match_percentages = [100 * (1 - (distance - min_distance) / (max_distance - min_distance)) for distance in distances]
+    #for idx, match_percentage in enumerate(match_percentages, 1):
+    #    print(f"Set {idx} for blob {blob_path}: {match_percentage}% match")
 
-print(f"Average distance: {average_distance}")
+    average_match_percentage = sum(match_percentages) / len(match_percentages)
+    print(f"Average Match Percentage for {blob_path}: {average_match_percentage}% match")
 
-min_distance = min(distances)
-max_distance = max(distances)
+    os.remove(blob_path)
+os.remove(reference_blob_path)
 
-match_percentages = [100 * (1 - (distance - min_distance) / (max_distance - min_distance)) for distance in distances]
-
-for idx, match_percentage in enumerate(match_percentages, 1):
-    print(f"Set {idx}: {match_percentage}% match")
-
-# Calculate average match percentage
-average_match_percentage = sum(match_percentages) / len(match_percentages)
-
-# Print the average match percentage
-print(f"Average Match Percentage: {average_match_percentage}%")
-
-
-os.remove('blobs1')
-os.remove('blobs2')
