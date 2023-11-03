@@ -137,3 +137,37 @@ button:hover {
     background: transparent;
     padding: 15px 0;
 }
+
+.video-background {
+    background-image: url('../static/video_background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+}
+
+.video-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+video#video {
+    width: 70vw;
+    max-width: 900px;
+    height: auto;
+    border-radius: 15px;
+}
+
+.video-background p {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #FFFFFF;
+}
+
