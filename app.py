@@ -7,8 +7,11 @@ import datetime
 import bcrypt
 import traceback
 
-#from tools.eeg import get_head_band_sensor_object
-
+try: 
+    from tools.eeg import get_head_band_sensor_object
+    hb_imported = True
+except OSError: 
+    hb_imported = False
 
 from db_con import get_db_instance, get_db
 
@@ -33,9 +36,12 @@ def init_new_env():
     if 'db' not in g:
         g.db = get_db()
 
-    #if 'hb' not in g:
-        #g.hb = get_head_band_sensor_object()
-
+    if hb_imported:
+      if 'hb' not in g:
+        g.hb = get_head_band_sensor_object()
+    else:
+      logger.debug(f"WARNING: Running without neurosdk")
+      
     #g.secrets = get_secrets()
     #g.sms_client = get_sms_client()
 
@@ -47,8 +53,10 @@ def index():
 
 # Another redirect to the page containing the movie itself    
 @app.route('/video')
-def video(user_id=0):
-    return render_template('video.html', user_id=user_id)
+def video(username=None):
+    if not username:
+        username = "Guest"
+    return render_template('video.html', username=username)
 
 @app.route('/signup')
 def signup(error=0):
