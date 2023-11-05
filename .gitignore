@@ -161,3 +161,9 @@ cython_debug/
 
 # Our users database file
 users.sqlite3
+
+# Pickle files
+*.pkl
+
+# Ignore everything in the 'blobs_tmp/' directory
+blobs_tmp/*
