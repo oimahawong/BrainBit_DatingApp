@@ -24,7 +24,6 @@ def download_from_bucket(bucket_name, source_blob_name, destination_file_name):
 
 def download_all_from_bucket(bucket_name, destination_folder, prefix=""):
     storage_client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-65e54374e3c7.json')
-
     bucket = storage_client.bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
 
@@ -40,8 +39,15 @@ def download_all_from_bucket(bucket_name, destination_folder, prefix=""):
             os.makedirs(directory, exist_ok=True)
             print(f"Created directory: {directory}")
 
-        blob.download_to_filename(destination_file_name)
-        print(f"Downloaded blob to {destination_file_name}")
+        if not os.path.isfile(destination_file_name):
+            blob.download_to_filename(destination_file_name)
+            print(f"Downloaded blob to {destination_file_name}")
+
+        if os.path.isfile(destination_file_name):
+            print(f"File already exists: {destination_file_name}")
+
+
+
         blob_names.append(destination_file_name)
 
     return blob_names
