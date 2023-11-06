@@ -6,8 +6,11 @@ from tools.bucket import upload_to_bucket
 import pickle
 
 
-def handle_request():
-    if g.hb == None:
+def handle_request():    
+    # Placeholder, demonstrates that the proper user ID was received
+    logger.debug(request.form['userid'])
+    
+    if 'hb' not in g:
         return ["Stop, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)
