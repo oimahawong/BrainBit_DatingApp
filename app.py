@@ -53,10 +53,8 @@ def index():
 
 # Another redirect to the page containing the movie itself    
 @app.route('/video')
-def video(username=None):
-    if not username:
-        username = "Guest"
-    return render_template('video.html', username=username)
+def video(username="Guest", userid=0):
+    return render_template('video.html', username=username, userid=userid)
 
 @app.route('/signup')
 def signup(error=0):

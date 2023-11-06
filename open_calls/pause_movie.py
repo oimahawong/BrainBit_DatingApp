@@ -5,7 +5,7 @@ from neurosdk.cmn_types import *
 
 
 def handle_request():
-    if g.hb == None:
+    if 'hb' not in g:
         return ["Pause, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)

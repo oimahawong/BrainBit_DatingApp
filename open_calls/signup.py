@@ -28,4 +28,4 @@ def handle_request():
     cur.execute("insert into users values (?, ?, ?)", (id_num, name_from_form, email_from_form))
     g.db.commit()
     
-    return video(username=name_from_form)
+    return video(username=name_from_form, userid=id_num)

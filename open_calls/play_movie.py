@@ -7,7 +7,7 @@ import sys
 import io
 
 def handle_request():
-    if g.hb == None:
+    if 'hb' not in g:
         return ["Play, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStartSignal)
