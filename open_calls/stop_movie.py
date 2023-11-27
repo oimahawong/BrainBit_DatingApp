@@ -9,6 +9,7 @@ import pickle
 def handle_request():    
     # Placeholder, demonstrates that the proper user ID was received
     logger.debug(request.form['userid'])
+    userid = request.form['userid'] + "_HBscan.pkl"
     
     if 'hb' not in g:
         return ["Stop, no HB"]
@@ -19,7 +20,7 @@ def handle_request():
 
     bucket_name = 'brainbit_bucket'
     source_file_path = r'output.pkl'
-    destination_blob_name = 'test2.txt'  # Name it will have in the bucket
+    destination_blob_name = userid  # Name it will have in the bucket
     upload_to_bucket(bucket_name, source_file_path, destination_blob_name)
 
 
