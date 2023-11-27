@@ -2,6 +2,7 @@ from flask import request, g, redirect
 
 from app import video, signup
 from tools.logging import logger
+from re import match
 
 def handle_request():
     logger.debug("Signup Handle Request")
@@ -12,12 +13,23 @@ def handle_request():
     
     # Retrieve a cursor for the app database
     cur = g.db.cursor()
+      
+    # Validate email address
+    if not match(r"[^@]+@[^@]+\.[^@]+", email_from_form):
+      logger.debug("Invalid email!")
+      return signup(error=1)
+    
+    # Check for duplicate usernames
+    cur.execute("select count(1) from users where name = ?", (name_from_form, ))
+    if cur.fetchone()[0] == 1:
+      logger.debug("Duplicate user!")
+      return signup(error=2)
     
     # Check for duplicate email addresses
     cur.execute("select count(1) from users where email = ?", (email_from_form, ))
-    if(cur.fetchone()[0] == 1):
-      logger.debug("Duplicate user!")
-      return signup(error=1)
+    if cur.fetchone()[0] == 1:
+      logger.debug("Duplicate email!")
+      return signup(error=3)
     
     # Determine a user ID for the new user
     cur.execute("select max(id) from users")
