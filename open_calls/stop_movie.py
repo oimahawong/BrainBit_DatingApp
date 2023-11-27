@@ -11,7 +11,8 @@ def handle_request():
     logger.debug(request.form['userid'])
     userid = request.form['userid'] + "_HBscan.pkl"
     
-    if 'hb' not in g:
+    # If headband library is not installed or headband is not connected
+    if 'hb' not in g or g.hb == None:
         return ["Stop, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)
