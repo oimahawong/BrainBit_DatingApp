@@ -10,7 +10,8 @@ def handle_request():
     # Placeholder, demonstrates that the proper user ID was received
     logger.debug(request.form['userid'])
     
-    if 'hb' not in g:
+    # If headband library is not installed or headband is not connected
+    if 'hb' not in g or g.hb == None:
         return ["Stop, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)
