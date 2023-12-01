@@ -22,7 +22,7 @@ destination_folder = "blobs_tmp"
 blob_paths = download_all_from_bucket('brainbit_bucket', destination_folder, prefix="bw_scans/") # Holds list of local file paths to blobs
 
 
-client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-65e54374e3c7.json') # Creates GCS instance
+client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-a4aa72be527e.json') # Creates GCS instance
 bucket = client.bucket('brainbit_bucket') # Access cloud bucket
 
 average_distances = {} # Dictionary that holds results of comparisons
