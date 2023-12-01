@@ -4,7 +4,7 @@ from google.cloud import storage
 
 def upload_to_bucket(bucket_name, source_file_name, destination_blob_name):
     storage_client = storage.Client.from_service_account_json(
-        'tools/halogen-inkwell-401500-65e54374e3c7.json')
+        'tools/halogen-inkwell-401500-a4aa72be527e.json')
 
     bucket = storage_client.bucket(bucket_name) # Get the bucket object
     blob = bucket.blob(destination_blob_name) # Create a blob object (this doesn't upload the file just yet)
@@ -14,7 +14,7 @@ def upload_to_bucket(bucket_name, source_file_name, destination_blob_name):
 
 def download_from_bucket(bucket_name, source_blob_name, destination_file_name):
     storage_client = storage.Client.from_service_account_json(
-        'tools/halogen-inkwell-401500-65e54374e3c7.json')
+        'tools/halogen-inkwell-401500-a4aa72be527e.json')
 
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
@@ -23,7 +23,7 @@ def download_from_bucket(bucket_name, source_blob_name, destination_file_name):
     print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
 
 def download_all_from_bucket(bucket_name, destination_folder, prefix=""):
-    storage_client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-65e54374e3c7.json')
+    storage_client = storage.Client.from_service_account_json('tools/halogen-inkwell-401500-a4aa72be527e.json')
     bucket = storage_client.bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
 
