@@ -167,3 +167,4 @@ users.sqlite3
 
 # Ignore everything in the 'blobs_tmp/' directory
 blobs_tmp/*
+tools/halogen-inkwell-401500-a4aa72be527e.json
