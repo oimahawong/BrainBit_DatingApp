@@ -35,9 +35,12 @@ def handle_request():
     cur.execute("select max(id) from users")
     id_num = cur.fetchone()[0] + 1
     
-    # Insert the new user's ID, name, and email into the users table
+    # Select a default profile image for the new user
+    img_num = id_num % 10
+    
+    # Insert the new user's ID, name, email, and profile image into the users table
     logger.debug(f"Creating user {name_from_form} with id {id_num} and email {email_from_form}")
-    cur.execute("insert into users values (?, ?, ?)", (id_num, name_from_form, email_from_form))
+    cur.execute("insert into users values (?, ?, ?, ?)", (id_num, name_from_form, email_from_form, img_num))
     
     # Create a new row and column in the in the matches table for the new user
     cur.execute("insert into matches (id) values (?)", (id_num, ))
