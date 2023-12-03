@@ -44,7 +44,7 @@ def handle_request():
     
     # Create a new row and column in the in the matches table for the new user
     cur.execute("insert into matches (id) values (?)", (id_num, ))
-    cur.execute(f"alter table matches add {id_num} int")
+    cur.execute(f"alter table matches add match_{id_num} int")
     g.db.commit()
     
     return video(username=name_from_form, userid=id_num)

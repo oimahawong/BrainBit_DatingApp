@@ -73,9 +73,9 @@ for blob1, comparisons in average_distances.items():
         print(f"Match percentage between {blob1} and {blob2}: {match_percentage: 0.2f}%")
         
         # Add match percentage to SQL database
-        userid_1 = blob1[:-11] if len(blob1) > 11 else blob1
-        userid_2 = blob2[:-11] if len(blob2) > 11 else blob2
-        cur.execute(f"update matches set {userid_2}={match_percentage} where id={userid_1}")
+        userid_1 = 1 #blob1[:-11] if len(blob1) > 11 else blob1
+        userid_2 = 2 #blob2[:-11] if len(blob2) > 11 else blob2
+        cur.execute(f"update matches set match_{userid_2}={match_percentage} where id={userid_1}")
         db.commit()
 
 # Directory to store pickled result comparisons
