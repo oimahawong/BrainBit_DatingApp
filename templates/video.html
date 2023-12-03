@@ -1,65 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Background Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	  <script src="https://code.jquery.com/jquery-3.6.0.js" 
-		  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Video Background Page</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
-<script>
-	function play_start(){
-		$.post("/open_api/play_movie", { "data":"somedata", "any":"data"},
-			function(data, textStatus) {
-				//this gets called when browser receives response from server
+	<script>
+		function play_start() {
+			$.post("/open_api/play_movie", { "data": "somedata", "any": "data" },
+				function (data, textStatus) {
+					//this gets called when browser receives response from server
+					console.log(data);
+				}, "json").fail(function (response) {
+					//this gets called if the server throws an error
+					console.log("error");
+					console.log(response);
+				});
+		}
+		function video_ended() {
+			$.post("/open_api/stop_movie", { "data": "somedata", "any": "data", "userid": {{ userid }} }, function(data, textStatus) {
+				console.log("stopping hb");
 				console.log(data);
-			}, "json").fail( function(response) {
-				//this gets called if the server throws an error
-				console.log("error");
-			console.log(response);});
-	}
-  function video_ended() {
-      $.post("/open_api/stop_movie", { "data":"somedata", "any":"data", "userid":{{ userid }} }, function(data, textStatus) {
-		console.log("stopping hb");
-		console.log(data);
-      }, "json").fail(function(response) {
-      	console.log(response);
-      });
+			}, "json").fail(function (response) {
+				console.log(response);
+			});
   }
-  function video_paused(){
-          $.post("/open_api/pause_movie", { "data":"somedata", "any":"data"}, function(data, textStatus) {
-		console.log("stopping hb");
-		console.log(data);
-      }, "json").fail(function(response) {
-      	console.log(response);
-      });
-  }
-</script>
+		function video_paused() {
+			$.post("/open_api/pause_movie", { "data": "somedata", "any": "data" }, function (data, textStatus) {
+				console.log("stopping hb");
+				console.log(data);
+			}, "json").fail(function (response) {
+				console.log(response);
+			});
+		}
+	</script>
 
-<div class="video-background">
-    <div class="video-container">
-        <video id="video" controls>
-            <source src="{{ url_for('static', filename='movie.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <p>Welcome, {{ username|default('Guest', true) }}</p>
-    </div>
-</div>
+	<div class="video-background">
+		<div class="video-container">
+			<video id="video" controls>
+				<source src="{{ url_for('static', filename='movie.mp4') }}" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
 
-<script>
-	video.addEventListener("play", (event) => {
-		play_start();
-	});
-	video.addEventListener("ended", (event) => {
-		video_ended();
-	});
-	video.addEventListener("pause", (event) => {
-		video_paused();
-	});
-</script>
+			<p>Welcome, {{ username|default('Guest', true) }}</p>
+
+			<div id="buttonContainer">
+				<button id="calculateButton" type="button">
+					<span class="calculate-results"></span>Calculate Results
+				</button>
+			</div>
+
+			<div id="loadingAnimation" style="display: none;">
+				<div class="loader"></div>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		video.addEventListener("play", (event) => {
+			play_start();
+		});
+		video.addEventListener("ended", (event) => {
+			video_ended();
+		});
+		video.addEventListener("pause", (event) => {
+			video_paused();
+		});
+	</script>
+
+	<script>
+		document.getElementById('calculateButton').addEventListener('click', function () {
+
+			document.getElementById('buttonContainer').style.display = 'none';
+			document.getElementById('loadingAnimation').style.display = 'block';
+
+			setTimeout(function () {
+				window.location.href = "{{ url_for('results') }}";
+			}, 2000);
+		});
+	</script>
+
 
 </body>
+
 </html>

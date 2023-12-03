@@ -58,9 +58,31 @@ def video(username="Guest", userid=0):
 def signup(error=0):
     return render_template('signup.html', error=error)
     
-@app.route('/matches')
+@app.route('/results')
 def matches(userdata=(), matchdata=()):
-    return render_template('matches.html', userdata=userdata, matchdata=matchdata)
+    return render_template('results.html', userdata=userdata, matchdata=matchdata)
+
+@app.route("/secure_api/<proc_name>",methods=['GET', 'POST'])
+@token_required
+def exec_secure_proc(proc_name):
+    logger.debug(f"Secure Call to {proc_name}")
+
+    #setup the env
+    init_new_env()
+
+    #see if we can execute it..
+    resp = ""
+    try:
+        fn = getattr(__import__('secure_calls.'+proc_name), proc_name)
+        resp = fn.handle_request()
+    except Exception as err:
+        ex_data = str(Exception) + '\n'
+        ex_data = ex_data + str(err) + '\n'
+        ex_data = ex_data + traceback.format_exc()
+        logger.error(ex_data)
+        return json_response(status_=500 ,data=ERROR_MSG)
+
+    return resp
 
 @app.route("/open_api/<proc_name>",methods=['GET', 'POST'])
 def exec_proc(proc_name):
