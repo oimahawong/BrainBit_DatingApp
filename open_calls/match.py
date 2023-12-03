@@ -18,7 +18,7 @@ def handle_request():
     thisemail = cur.fetchone()[1]
     thisimg = cur.fetchone()[2]
     cur.execute("select path from images where id=?", (thisimg, ))
-    thisimg = cur.fetchone()[0]
+    thisimg = f"static/images/{cur.fetchone()[0]}"
     
     # Determine current user's best match
     cur.execute(f"select id, match_{userid} from matches where match_{userid} = ( select max(match_{userid}) from matches );")
@@ -30,7 +30,7 @@ def handle_request():
     matchemail = cur.fetchone()[1]
     matchimg = cur.fetchone()[2]
     cur.execute("select path from images where id=?", (matchimg, ))
-    matchimg = cur.fetchone()[0]
+    matchimg = f"static/images/{cur.fetchone()[0]}"
     
     # Tuple contains: Name, email, profile pic path, (match percentage)
     userdata = thisname, thisemail, thisimg
