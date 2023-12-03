@@ -44,14 +44,16 @@
 
 	<div class="video-background">
 		<div class="video-container">
-			<video id="video" controls>
+			<video id="video" controls class="video-fade-in">
 				<source src="{{ url_for('static', filename='movie.mp4') }}" type="video/mp4">
 				Your browser does not support the video tag.
 			</video>
 
-			<p>Welcome, {{ username|default('Guest', true) }}</p>
+			<p class="welcome-text">
+				Welcome, {{ username|default('Guest', true) }}
+			</p>
 
-			<div id="buttonContainer">
+			<div id="buttonContainer" class="button-fade-in">
 				<button id="calculateButton" type="button">
 					<span class="calculate-results"></span>Calculate Results
 				</button>

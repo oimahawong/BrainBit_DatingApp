@@ -232,3 +232,23 @@ video#video {
     z-index: -1;
     transition: 0.5s;
 }
+
+.video-fade-in {
+    animation: fadeIn 1s;
+}
+
+.welcome-text {
+    animation: fadeIn 1.5s;
+}
+
+.button-fade-in {
+    animation: fadeIn 1s;
+}
+
+button#calculateButton {
+    background-color: transparent;
+    transition: background-color 0.5s ease, transform 0.3s ease;
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+}
