@@ -60,6 +60,10 @@ def video(username="Guest", userid=0):
 def signup(error=0):
     return render_template('signup.html', error=error)
 
+@app.route('/results')
+def results():
+    return render_template('results.html')
+
 @app.route("/secure_api/<proc_name>",methods=['GET', 'POST'])
 @token_required
 def exec_secure_proc(proc_name):
