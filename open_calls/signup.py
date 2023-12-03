@@ -1,4 +1,4 @@
-from flask import request, g, redirect
+from flask import request, g
 
 from app import video, signup
 from tools.logging import logger

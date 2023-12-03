@@ -57,6 +57,10 @@ def video(username="Guest", userid=0):
 @app.route('/signup')
 def signup(error=0):
     return render_template('signup.html', error=error)
+    
+@app.route('/matches')
+def matches(userdata=(), matchdata=()):
+    return render_template('matches.html', userdata=userdata, matchdata=matchdata)
 
 @app.route("/open_api/<proc_name>",methods=['GET', 'POST'])
 def exec_proc(proc_name):
