@@ -57,7 +57,7 @@ def video(username="Guest", userid=0):
 @app.route('/signup')
 def signup(error=0):
     return render_template('signup.html', error=error)
-    
+
 @app.route('/results')
 def matches(userdata=(), matchdata=()):
     return render_template('results.html', userdata=userdata, matchdata=matchdata)
