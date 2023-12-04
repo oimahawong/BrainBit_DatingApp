@@ -1,6 +1,6 @@
 from flask import request, g, redirect
 
-from app import matches
+from app import results
 from tools.logging import logger
 
 def handle_request():
@@ -14,26 +14,21 @@ def handle_request():
     
     # Extract data for current user from database
     cur.execute("select name, email, img from users where id=?", (userid, ))
-    thisname = cur.fetchone()[0]
-    thisemail = cur.fetchone()[1]
-    thisimg = cur.fetchone()[2]
-    cur.execute("select path from images where id=?", (thisimg, ))
+    thisuser = cur.fetchone()
+    cur.execute("select path from images where id=?", (thisuser[2], ))
     thisimg = f"static/images/{cur.fetchone()[0]}"
     
     # Determine current user's best match
     cur.execute(f"select id, match_{userid} from matches where match_{userid} = ( select max(match_{userid}) from matches );")
-    matchid = cur.fetchone()[0]
-    matchpercent = cur.fetchone()[1]
+    match = cur.fetchone()
     # And fetch their data as well
-    cur.execute("select name, email, img from users where id=?", (matchid, ))
-    matchname = cur.fetchone()[0]
-    matchemail = cur.fetchone()[1]
-    matchimg = cur.fetchone()[2]
-    cur.execute("select path from images where id=?", (matchimg, ))
-    matchimg = f"static/images/{cur.fetchone()[0]}"
+    cur.execute("select name, email, img from users where id=?", (match[0], ))
+    thatuser = cur.fetchone()
+    cur.execute("select path from images where id=?", (thatuser[2], ))
+    thatimg = f"static/images/{cur.fetchone()[0]}"
     
     # Tuple contains: Name, email, profile pic path, (match percentage)
-    userdata = thisname, thisemail, thisimg
-    matchdata = matchname, matchemail, matchimg, matchpercent
+    userdata = thisuser[0], thisuser[1], thisimg
+    matchdata = thatuser[0], thatuser[1], thatimg, match[1]
     
-    return matches(userdata=userdata, matchdata=matchdata)
+    return results(userdata=userdata, matchdata=matchdata)
