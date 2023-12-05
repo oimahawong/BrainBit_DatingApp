@@ -15,8 +15,6 @@ except OSError:
 
 from db_con import get_db_instance, get_db
 
-from tools.token_required import token_required
-
 #used if you want to store your secrets in the aws valut
 #from tools.get_aws_secrets import get_secrets
 

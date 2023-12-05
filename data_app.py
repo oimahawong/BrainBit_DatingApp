@@ -5,6 +5,8 @@ import re
 import math
 import os
 
+from db_con import get_db_instance
+
 # Process blobs and extract O1, O2, T3, T4 data
 def process_blob(blob_path):
     # Unpickle data
@@ -59,6 +61,9 @@ min_distance = min(all_distances)
 max_distance = max(all_distances)
 match_percentages = {}
 
+#SQL database cursor
+db, cur = get_db_instance()
+
 for blob1, comparisons in average_distances.items():
     match_percentages[blob1] = {}
 
@@ -66,6 +71,12 @@ for blob1, comparisons in average_distances.items():
         match_percentage = 100 * (1 - (avg_distance - min_distance) / (max_distance - min_distance))
         match_percentages[blob1][blob2] = match_percentage
         print(f"Match percentage between {blob1} and {blob2}: {match_percentage: 0.2f}%")
+        
+        # Add match percentage to SQL database
+        userid_1 = 1 #blob1[:-11] if len(blob1) > 11 else blob1
+        userid_2 = 2 #blob2[:-11] if len(blob2) > 11 else blob2
+        cur.execute(f"update matches set match_{userid_2}={match_percentage} where id={userid_1}")
+        db.commit()
 
 # Directory to store pickled result comparisons
 matches_directory = 'blobs_tmp/users_match_data'
