@@ -29,9 +29,7 @@ if __name__ == "__main__":
       imgpath = f"profiles/{i}.png"
       cur.execute("insert into images values( ?, ? )", (i, imgpath))
     
-    db.commit()
-    
-    if argv[0] == "full":
+    if len(argv) > 1 and argv[1] == "full":
       cur.execute("insert into users values (1, \"user1\", \"user1@email.com\", 1)")
       cur.execute("insert into matches (id) values (1)")
       cur.execute("alter table matches add match_1 int")
@@ -47,3 +45,5 @@ if __name__ == "__main__":
       cur.execute("insert into users values (4, \"user4\", \"user4@email.com\", 4)")
       cur.execute("insert into matches (id) values (4)")
       cur.execute("alter table matches add match_4 int")
+      
+    db.commit()
