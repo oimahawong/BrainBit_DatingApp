@@ -139,7 +139,7 @@ button:hover {
 }
 
 .video-background {
-    background-image: url('../static/video_background.png');
+    background-image: url('../static/images/video_background.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -251,4 +251,50 @@ button#calculateButton {
     transform: perspective(1px) translateZ(0);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
     backface-visibility: hidden;
+}
+
+.results-background {
+    background-image: url('../static/images/results_background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+@keyframes glowing-effect {
+    0% {
+        filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+    }
+}
+
+@keyframes resizing-effect {
+    0% {
+        width: 60%;
+    }
+
+    50% {
+        width: 70%;
+    }
+
+    100% {
+        width: 65%;
+    }
+}
+
+.results-card {
+    width: 60%;
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+    animation: glowing-effect 3s 1 3s, resizing-effect 3.5s 1 3s;
+    animation-fill-mode: forwards;
 }
