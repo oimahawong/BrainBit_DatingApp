@@ -1,6 +1,18 @@
-<!-- THIS FILE IS FOR TESTING PURPOSES ONLY -->
-<html>
-  {{ userdata[0] }}
-  {{ matchdata[0] }}
-  {{ matchdata[3] }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Perfect Match!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="results-background">
+        <img src="{{ url_for('static', filename='images/results_card1.png') }}" alt="Results Card" class="results-card"
+            id="resultsCard">
+    </div>
+</body>
+
 </html>
