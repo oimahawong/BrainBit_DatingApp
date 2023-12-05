@@ -10,9 +10,25 @@
 
 <body>
     <div class="results-background">
-        <img src="{{ url_for('static', filename='images/results_card1.png') }}" alt="Results Card" class="results-card"
-            id="resultsCard">
+        <div class="card-container" id="resultsCard">
+            <img src="{{ url_for('static', filename='images/results_card1.png') }}" alt="Results Card"
+                class="results-card">
+            <div class="results-content">
+                <img src="../{{ matchdata[2] }}" alt="Profile Image" class="profile-image">
+                <p class="name-text">{{ matchdata[0] }}</p>
+                <p class="percent-text">
+                    {{ matchdata[3] }}%
+                    <span class="additional-text">Match!</span>
+                </p>
+                <p class="pickup-line">
+                    "I hope you know CPR,<br>
+                    because you just took<br>
+                    my breath away!"</p>
+            </div>
+        </div>
+
     </div>
 </body>
+
 
 </html>
