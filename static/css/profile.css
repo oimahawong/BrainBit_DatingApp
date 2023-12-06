@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../images/signup_background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: sans-serif;
+
+    width: 100vw;
+    height: 100vh;
+}
