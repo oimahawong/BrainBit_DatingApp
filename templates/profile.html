@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type= "text/css" href="../static/css/profile.css">
+   
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+        <img src="../static/images/logo.png" alt = "companys logo">
+        <span>Soul Finders</span>
+        </div>
+        <a href="#Home">Home</a>
+        <a href="#Result">Result</a>
+        <a href="#Profile">Profile</a>
+    
+
+    <div class="login-container">
+        <a href="#signout">SIGN OUT</a>
+    </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="profile">
+            <div class="content">
+                <h1>Edit Profile</h1>
+                <form action="">
+                    <!--Photo-->
+                    
+                        <span class="avatar"><i class="fas fa-user"></i></span>
+                    
+                    <fieldset>
+                        <div class="grid-35">
+                            <label for="avatar"></label>
+                        </div>
+                        <div class="grid-65">
+                            <span class="photo" title="Upload avatar"></span>
+                            <input type="file" class="btn" />
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="grid-35">
+                        <label for="fname">Name</label>
+                        </div>
+                        <div class="grid-65">
+                            <input type="text" id="fname" tabindex="1"/>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="grid-35">
+                        <label for="fname">Email</label>
+                        </div>
+                        <div class="grid-65">
+                            <input type="text" id="email" tabindex="2"/>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
