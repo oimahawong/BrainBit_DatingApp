@@ -11,8 +11,8 @@ body {
     height: 100vh;
 }
 .navbar {
-    background-color: #000099;
-    opacity: .4;
+    
+    background: rgba(7, 7, 7, 0.2);
     overflow: hidden;
 }
 .navbar a {
