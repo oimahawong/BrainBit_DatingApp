@@ -10,3 +10,47 @@ body {
     width: 100vw;
     height: 100vh;
 }
+.navbar {
+    background-color: #000099;
+    opacity: .4;
+    overflow: hidden;
+}
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    
+}
+
+.login-container {
+    float:right;
+}
+.navbar img{
+    float: left;
+    height: 30px;
+    padding: -30px;
+}
+.login-container a {
+    display: block;
+    color:white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/*User image*/
+.user {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    color: #7e7c87;
+
+}
