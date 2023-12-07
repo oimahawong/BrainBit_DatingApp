@@ -9,7 +9,7 @@ def handle_request():
     # SQL database cursor
     cur = g.db.cursor()
     
-    # Final version should fetch this from current user somehow
+    # Fetch ID from current user
     userid = request.form['userid']
     
     # Extract data for current user from database
