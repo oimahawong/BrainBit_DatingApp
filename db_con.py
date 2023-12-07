@@ -30,19 +30,19 @@ if __name__ == "__main__":
       cur.execute("insert into images values( ?, ? )", (i, imgpath))
     
     if len(argv) > 1 and argv[1] == "full":
-      cur.execute("insert into users values (1, \"user1\", \"user1@email.com\", 1)")
+      cur.execute("insert into users values (1, \"user1\", \"soulfinders.match@gmail.com\", 1)")
       cur.execute("insert into matches (id) values (1)")
       cur.execute("alter table matches add match_1 int")
       
-      cur.execute("insert into users values (2, \"user2\", \"user2@email.com\", 2)")
+      cur.execute("insert into users values (2, \"user2\", \"soulfinders.match@gmail.com\", 2)")
       cur.execute("insert into matches (id) values (2)")
       cur.execute("alter table matches add match_2 int")
       
-      cur.execute("insert into users values (3, \"user3\", \"user3@email.com\", 3)")
+      cur.execute("insert into users values (3, \"user3\", \"soulfinders.match@gmail.com\", 3)")
       cur.execute("insert into matches (id) values (3)")
       cur.execute("alter table matches add match_3 int")
       
-      cur.execute("insert into users values (4, \"user4\", \"user4@email.com\", 4)")
+      cur.execute("insert into users values (4, \"user4\", \"soulfinders.match@gmail.com\", 4)")
       cur.execute("insert into matches (id) values (4)")
       cur.execute("alter table matches add match_4 int")
       
