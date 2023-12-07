@@ -25,45 +25,38 @@
         <a href="#signout">SIGN OUT</a>
     </div>
     </div>
+    
 
-    <div class="wrapper">
-        <div class="profile">
-            <div class="content">
-                <h1>Edit Profile</h1>
-                <form action="">
-                    <!--Photo-->
-                    
-                        <span class="avatar"><i class="fas fa-user"></i></span>
-                    
-                    <fieldset>
-                        <div class="grid-35">
-                            <label for="avatar"></label>
-                        </div>
-                        <div class="grid-65">
-                            <span class="photo" title="Upload avatar"></span>
-                            <input type="file" class="btn" />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="grid-35">
-                        <label for="fname">Name</label>
-                        </div>
-                        <div class="grid-65">
-                            <input type="text" id="fname" tabindex="1"/>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="grid-35">
-                        <label for="fname">Email</label>
-                        </div>
-                        <div class="grid-65">
-                            <input type="text" id="email" tabindex="2"/>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+    
+    <div class="container">
+        <div class="profile-picture-container">
+         <div class="profile-picture">
+                <img src="../static/images/avatar_placeholder.png" alt="profile-picture">
+                </div>
+                <div class="upload-text"> Upload Picture</div>
+         </div>
+        <form id="editProfileForm">
+            <label for="fullName">Name:</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Name" required>
 
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
     </div>
+    </div>
+    
+ <script>
+    //for Javascript
+
+ </script>
+ 
+                    
+
+
 </body>
 </html>
