@@ -9,8 +9,8 @@ def handle_request():
     # SQL database cursor
     cur = g.db.cursor()
     
-    # Final version should fetch this from current user somehow
-    userid = 2
+    # Fetch ID from current user
+    userid = request.form['userid']
     
     # Extract data for current user from database
     cur.execute("select name, email, img from users where id=?", (userid, ))
