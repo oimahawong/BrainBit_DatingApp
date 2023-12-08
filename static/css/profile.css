@@ -97,7 +97,13 @@ input {
     box-sizing: border-box;
     margin-bottom: 10px;
 }
+#input-file {
+    display: none;
+}
 
+#clickFile {
+    text-align: center;
+}
 button {
     
     background-color: #333;
