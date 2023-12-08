@@ -4,6 +4,12 @@ import pickle
 import re
 import math
 import os
+from email.message import EmailMessage
+import ssl
+import smtplib
+from email.utils import make_msgid
+from pathlib import Path
+
 
 from db_con import get_db_instance
 
@@ -104,3 +110,69 @@ for blob_name in average_distances.keys():
     with open(match_perc_pkl_path, 'wb') as pickle_file:
         pickle.dump(match_percentages[blob_name], pickle_file)
     upload_to_bucket('brainbit_bucket', match_perc_pkl_path, f"users_match_data/{match_perc_pkl_name}")
+
+def attach_image(email_message, image_path):
+    with open(image_path, 'rb') as img_file:
+        img_data = img_file.read()
+        img_filename = Path(image_path).name
+        email_message.add_attachment(img_data, maintype='image', subtype=Path(image_path).suffix.lstrip('.'), filename=img_filename)
+
+db, cur = get_db_instance()
+
+email_sender = 'soulfinders.match@gmail.com'
+email_password = input('Password: ')
+
+# Iterate through users 1-4
+for userid in range(1, 5):
+    cur.execute("select name, email, img from users where id=?", (userid,))
+    thisuser = cur.fetchone()
+
+    if not thisuser:
+        print(f"No data found for user ID {userid}")
+        continue
+
+    cur.execute("select path from images where id=?", (thisuser[2],))
+    thisimg = f"static/images/{cur.fetchone()[0]}"
+
+    cur.execute(f"select id, match_{userid} from matches where match_{userid} = (select max(match_{userid}) from matches);")
+    match = cur.fetchone()
+
+    if not match:
+        print(f"No match data found for user ID {userid}")
+        continue
+
+    cur.execute("select name, email, img from users where id=?", (match[0],))
+    thatuser = cur.fetchone()
+    cur.execute("select path from images where id=?", (thatuser[2],))
+    thatimg = f"static/images/{cur.fetchone()[0]}"
+
+    email_receiver = thisuser[1]
+    subject = 'Your Best Match'
+
+    html_body = f"""
+    <html>
+        <body>
+            <h1>Hello, {thisuser[0]}!</h1>
+            <p>You have a new match!</p>
+            <h2>{thatuser[0]}</h2>
+            <p>Match percentage: {match[1]}%</p>
+            <p>See attached images for profile picture.</p>
+        </body>
+    </html>
+    """
+
+    em = EmailMessage()
+    em['From'] = email_sender
+    em['To'] = email_receiver
+    em['Subject'] = subject
+    em.set_content("This is an automated message.")
+    em.add_alternative(html_body, subtype='html')
+
+    attach_image(em, thatimg)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(email_sender, email_password)
+        smtp.send_message(em)
+
+    print(f"Email sent to user ID {userid}")
