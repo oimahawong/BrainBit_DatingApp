@@ -41,6 +41,10 @@ body {
     height: 65px;
     padding: -30px;
 }
+
+/* Profile Section*/
+
+
 .login-container a {
     display: block;
     color:white;
@@ -51,16 +55,16 @@ body {
     border-radius: 10px;
 }
 
-/* Edit User Profile */
-
-
 .container {
+    margin-top: 100px;
     max-width: 500px;
-    margin: 20px auto;
     background-color:transparent;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    border: 2px solid rgba(255, 255, 255, alpha.5);
+    backdrop-filter: blur(20px);
+
 }
 
 .container button {
