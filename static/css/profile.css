@@ -1,14 +1,13 @@
 body {
     margin: 0;
-    padding: 0;
-    background: url('../images/signup_background.png');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    font-family: "Rubik-Black",sans-serif;
-
-    width: 100vw;
-    height: 100vh;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: url('../images/signup_background.png') center center/cover no-repeat;
+}
+main {
+    flex: 1;
 }
 .navbar {
     
@@ -56,9 +55,10 @@ body {
 }
 
 .container {
-    margin-top: 100px;
+    margin-top: 40px;
     max-width: 500px;
     background-color:transparent;
+    padding-top: 30px;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
@@ -140,4 +140,53 @@ button {
     text-align: center;
     font-size: 14px;
     color: #333;
+    border-radius: 15px;
+}
+
+/*************************************
+ 
+    FOOTER SECTION
+
+**************************************/
+
+footer {
+    background: rgba(7, 7, 7, 0.2);
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-icons img {
+    width: 25px;
+    height: 25px;
+}
+
+#youtube {
+    width: 60px;
+    height: 25px;
+}
+.terms-copyright {
+    margin-top: 10px;
+}
+
+.terms-copyright a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 70px;
+}
+
+/* Add the following styles to ensure the footer goes to the bottom */
+html, body {
+    height: 100%;
 }
