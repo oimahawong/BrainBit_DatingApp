@@ -76,11 +76,26 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 50%;
     padding: 8px;
     margin-bottom: 16px;
     box-sizing: border-box;
     border-radius: 5px;
+}
+#editProfileForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+}
+#editProfileForm label {
+    text-align: left;
+}
+
+#editProfileForm input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 button {
