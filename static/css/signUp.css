@@ -19,20 +19,20 @@ body {
     top: 50%;
     left: 50%;
     position: absolute;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     box-sizing: border-box;
     border-radius: 15px;
     padding: 40px 30px 10px 30px;
     box-shadow:
-  0 2.8px 2.2px rgba(0.9, 0.5, 0.5, 0.034),
-  0 30.7px 5.3px rgba(0.7, 0.5, 0.5, 0.048),
-  0 12.5px 10px rgba(0.6, 0, 0.5, 0.06),
-  0 22.3px 17.9px rgba(0.6, 0, 0.5, 0.072),
-  0 41.8px 33.4px rgba(0, 0.9, 0.5, 0.086),
-  0 100px 80px rgba(0, 0, .05, 0.12)
+        0 2.8px 2.2px rgba(0.9, 0.5, 0.5, 0.034),
+        0 30.7px 5.3px rgba(0.7, 0.5, 0.5, 0.048),
+        0 12.5px 10px rgba(0.6, 0, 0.5, 0.06),
+        0 22.3px 17.9px rgba(0.6, 0, 0.5, 0.072),
+        0 41.8px 33.4px rgba(0, 0.9, 0.5, 0.086),
+        0 100px 80px rgba(0, 0, .05, 0.12)
 }
 
-h1{
+h1 {
     margin: 0;
     padding: 0 0 20px;
     text-align: center;
@@ -40,16 +40,18 @@ h1{
     color: black;
 }
 
- h3 {
+h3 {
     margin: 0;
     padding: 0 0 20px;
     text-align: center;
     font-size: 24px;
     color: black;
 }
+
 p {
     color: #000;
 }
+
 .loginbox p {
     margin: 0;
     margin-bottom: 15px;
@@ -65,33 +67,63 @@ p {
     border-radius: 20px;
 }
 
-.loginbox input[type ="submit"]
-{
+.loginbox input[type="submit"] {
     border: none;
     outline: none;
     height: 30px;
     background: url('../images/signup_background.png');
-    color:#fff;
+    color: #fff;
     font-size: 18px;
     border-radius: 20px;
     width: 150px;
     padding-top: 3px;
     margin: 0 auto;
     display: flex;
-   flex-direction: column;
-   align-items: center;
-   text-align: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
 }
 
-.loginbox input[type="submit"]:hover
-{
+.loginbox input[type="submit"]:hover {
     cursor: pointer;
     background: url('../images/submit2.png');
-}   
+}
 
-.loginbox a{
+.loginbox a {
     text-align: center;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
 
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-fill-mode: both;
+}
+
+.fade-in-right {
+    animation-name: fadeInRight;
+    animation-duration: 2s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
