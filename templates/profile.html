@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type= "text/css" href="../static/css/profile.css">
-   
+    
 </head>
 <body>
     <main>
@@ -68,21 +69,8 @@
             <a href="#">Copyright © 2023 SoulFinder, LLC All Right Reserve </a>
         </div>
     </footer>
-</body>
+
     
- <script>
-    let profile_Pic = document.getElementById("profilePic");
-    let inputFile = document.getElementById("input-file");
-
-    //This function switch out place holder picture
-    inputFile.onchange = function(){   
-        profile_Pic.src = URL.createObjectURL(inputFile.files[0]);
-    }
-
- </script>
- 
-                    
-
-
-
-</html>
+    <script type = "text/javascript" src="../static/javascript/profileMe.js"></script>
+    </body>
+ </html>
