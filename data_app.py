@@ -134,17 +134,24 @@ for userid in range(1, 5):
     cur.execute("select path from images where id=?", (thisuser[2],))
     thisimg = f"static/images/{cur.fetchone()[0]}"
 
-    cur.execute(f"select id, match_{userid} from matches where match_{userid} = (select max(match_{userid}) from matches);")
-    match = cur.fetchone()
+    # Fetch ordered list of matches by match %
+    cur.execute(f"select id, match_{userid} from matches order by match_{userid} desc")
+    match = cur.fetchall()
 
     if not match:
         print(f"No match data found for user ID {userid}")
         continue
-
-    cur.execute("select name, email, img from users where id=?", (match[0],))
-    thatuser = cur.fetchone()
-    cur.execute("select path from images where id=?", (thatuser[2],))
-    thatimg = f"static/images/{cur.fetchone()[0]}"
+    
+    # Iterate over top 3 matches
+    thatuser = []
+    thatimg = []
+    for i in range(3):
+      cur.execute("select name, email, img from users where id=?", (match[i][0],))
+      thatuser.append(cur.fetchone())
+      if not thatuser[i]:
+        break
+      cur.execute("select path from images where id=?", (thatuser[i][2],))
+      thatimg.append(f"static/images/{cur.fetchone()[0]}")
 
     email_receiver = thisuser[1]
     subject = 'Your Best Match'
@@ -153,10 +160,14 @@ for userid in range(1, 5):
     <html>
         <body>
             <h1>Hello, {thisuser[0]}!</h1>
-            <p>You have a new match!</p>
-            <h2>{thatuser[0]}</h2>
-            <p>Match percentage: {match[1]}%</p>
-            <p>See attached images for profile picture.</p>
+            <p>You have new matches!</p>
+            <h2>{thatuser[0][0]}</h2>
+            <p>Match percentage: {match[0][1]}%</p>
+            <h2>{thatuser[1][0]}</h2>
+            <p>Match percentage: {match[1][1]}%</p>
+            <h2>{thatuser[2][0]}</h2>
+            <p>Match percentage: {match[2][1]}%</p>
+            <p>See attached images for profile pictures.</p>
         </body>
     </html>
     """
@@ -168,7 +179,8 @@ for userid in range(1, 5):
     em.set_content("This is an automated message.")
     em.add_alternative(html_body, subtype='html')
 
-    attach_image(em, thatimg)
+    for i in range(3):
+      attach_image(em, thatimg[i])
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
