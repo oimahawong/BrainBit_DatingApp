@@ -121,10 +121,18 @@ def attach_image(email_message, image_path):
 db, cur = get_db_instance()
 
 email_sender = 'soulfinders.match@gmail.com'
-email_password = input('Password: ')
+
+# Ask the user if they want to send emails
+send_email = input("Do you want to send emails to all users (yes/no)? ").strip().lower()
+if send_email == 'yes':
+    email_password = input('Password: ')
 
 # Iterate through users 1-4
 for userid in range(1, 5):
+    # Skip sending emails if the user input is not 'yes'
+    if send_email != 'yes':
+        print(f"Email sending skipped for user ID {userid}")
+        continue
     cur.execute("select name, email, img from users where id=?", (userid,))
     thisuser = cur.fetchone()
 
