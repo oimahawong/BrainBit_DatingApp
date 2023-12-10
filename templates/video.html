@@ -92,12 +92,75 @@
 				var input = document.createElement('input');
 				input.type = 'hidden';
 				input.name = 'userid';
-				input.value = 1;
+				input.value = {{ userid }};
 				form.appendChild(input);
 				form.submit();
 			}, 2000);
 		});
 	</script>
+	<script>
+		const timestamps = [
+			{ time: 11, clip: 'clip 1' },
+			{ time: 22, clip: 'clip 2' },
+	        { time: 36, clip: 'clip 3' },
+			{ time: 50, clip: 'clip 4' },
+			{ time: 61, clip: 'clip 5' },
+			{ time: 79, clip: 'clip 6' },
+			{ time: 95, clip: 'clip 7' },
+			{ time: 117, clip: 'clip 8' },
+			{ time: 126, clip: 'clip 9' },
+			{ time: 134, clip: 'clip 10' },
+			{ time: 147, clip: 'clip 11' },
+			{ time: 183, clip: 'clip 12' },
+			{ time: 191, clip: 'clip 13' },
+			{ time: 198, clip: 'clip 14' },
+			{ time: 214, clip: 'clip 15' },
+			{ time: 224, clip: 'clip 16' },
+			{ time: 231, clip: 'clip 17' },
+			{ time: 241, clip: 'clip 18' },
+			{ time: 251, clip: 'clip 19' },
+			{ time: 264, clip: 'clip 20' },
+			{ time: 278, clip: 'clip 21' }
+		];
+
+		// Function to format seconds to MM:SS format
+		function formatTime(seconds) {
+			const minutes = Math.floor(seconds / 60);
+			const remainingSeconds = seconds % 60;
+			return minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
+		}
+
+		// Keep track of which timestamps have been logged
+		let loggedTimestamps = {};
+
+		// Add timeupdate event listener to video
+		document.getElementById('video').addEventListener('timeupdate', function(event) {
+			const currentTime = Math.floor(event.target.currentTime);
+
+			timestamps.forEach(timestamp => {
+				if (currentTime === timestamp.time && !loggedTimestamps[timestamp.clip]) {
+					console.log(formatTime(timestamp.time), timestamp.clip);
+					loggedTimestamps[timestamp.clip] = true;
+
+					// Send data to Flask server
+					$.ajax({
+						url: '/log-timestamp', // URL of your Flask route
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify({ time: formatTime(timestamp.time), clip: timestamp.clip }),
+						success: function(response) {
+							console.log('Timestamp logged:', response);
+						},
+						error: function(error) {
+							console.log('Error logging timestamp:', error);
+						}
+					});
+				}
+			});
+		});
+
+	</script>
+
 
 
 </body>

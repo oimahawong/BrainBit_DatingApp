@@ -1,5 +1,6 @@
-from flask import Flask,render_template,request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, jsonify
 from flask_json import FlaskJSON, JsonError, json_response, as_json
+from tools.eeg import all_my_data
 import jwt
 
 import sys
@@ -10,7 +11,7 @@ import traceback
 try: 
     from tools.eeg import get_head_band_sensor_object
     hb_imported = True
-except OSError: 
+except: 
     hb_imported = False
 
 from db_con import get_db_instance, get_db
@@ -82,6 +83,18 @@ def exec_proc(proc_name):
         return json_response(status_=500 ,data=ERROR_MSG)
 
     return resp
+
+@app.route('/log-timestamp', methods=['POST'])
+def log_timestamp():
+    data = request.json
+    time = data['time']
+    clip = data['clip']
+
+    logger.debug(f"Timestamp Logged: {time} - {clip}")
+    all_my_data.append(f"Timestamp Logged: {time} - {clip}")
+
+    return jsonify({'status': 'success', 'message': 'Timestamp logged'})
+
 
 
 if __name__ == '__main__':
