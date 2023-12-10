@@ -55,7 +55,7 @@
 
 			<div id="buttonContainer" class="button-fade-in">
 				<button id="calculateButton" type="button">
-					<span class="calculate-results"></span>Calculate Results
+					<span class="calculate-results"></span>View Results
 				</button>
 			</div>
 
@@ -85,16 +85,16 @@
 			document.getElementById('loadingAnimation').style.display = 'block';
 
 			setTimeout(function () {
-			  var form = document.createElement('form');
-        document.body.appendChild(form);
-			  form.method = 'post';
-			  form.action = '/open_api/results';
-			  var input = document.createElement('input');
-			  input.type = 'hidden';
-			  input.name = 'userid';
-			  input.value = 1;
-			  form.appendChild(input);
-			  form.submit();
+				var form = document.createElement('form');
+				document.body.appendChild(form);
+				form.method = 'post';
+				form.action = '/open_api/results';
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'userid';
+				input.value = 1;
+				form.appendChild(input);
+				form.submit();
 			}, 2000);
 		});
 	</script>
