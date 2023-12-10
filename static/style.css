@@ -44,6 +44,7 @@
 }
 
 .app-name {
+    font-family: 'Rubik Regular', sans-serif;
     color: #fff;
     font-size: 34px;
     line-height: 1.5;
@@ -62,6 +63,7 @@
 }
 
 .navbar ul li a {
+    font-family: 'Rubik Regular', sans-serif;
     text-decoration: none;
     color: #fff;
     text-transform: uppercase;
@@ -92,23 +94,26 @@
 }
 
 .welcome h1 {
+    font-family: 'Rubik Bold', sans-serif;
     font-size: 70px;
     margin-top: 80px;
 }
 
 .welcome p {
+    font-family: 'Rubik Regular', sans-serif;
     margin: 20px auto;
     font-weight: 100;
     line-height: 25px;
 }
 
 button {
+    font-family: 'Rubik Medium', sans-serif;
     width: 200px;
     padding: 15px 0;
     text-align: center;
     margin: 20px 10px;
     border-radius: 25px;
-    font-weight: bold;
+    font-weight: 100;
     border: 2px solid #fff;
     background: transparent;
     color: #fff;
@@ -222,6 +227,7 @@ video#video {
 }
 
 .calculate-results {
+    font-family: 'Rubik Medium', sans-serif;
     background: #6727ffa1;
     height: 100%;
     width: 0;
@@ -238,6 +244,7 @@ video#video {
 }
 
 .welcome-text {
+    font-family: 'Rubik Medium', sans-serif;
     animation: fadeIn 1.5s;
 }
 
@@ -393,6 +400,26 @@ button#calculateButton {
 }
 
 @font-face {
+    font-family: 'Rubik Semi Bold';
+    src: url('../static/fonts/rubik-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'Rubik Bold Italic';
     src: url('../static/fonts/rubik-bolditalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Rubik Light';
+    src: url('../static/fonts/rubik-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Rubik Medium';
+    src: url('../static/fonts/rubik-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Rubik Regular';
+    src: url('../static/fonts/rubik-Regular.ttf') format('truetype');
 }
