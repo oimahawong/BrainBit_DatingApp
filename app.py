@@ -10,7 +10,7 @@ import traceback
 try: 
     from tools.eeg import get_head_band_sensor_object
     hb_imported = True
-except OSError: 
+except: 
     hb_imported = False
 
 from db_con import get_db_instance, get_db
