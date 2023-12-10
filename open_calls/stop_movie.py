@@ -1,7 +1,13 @@
 from flask import request, g
 from tools.logging import logger
-from neurosdk.cmn_types import *
-from tools.eeg import all_my_data
+
+try:
+    from neurosdk.cmn_types import *
+    from tools.eeg import all_my_data
+    hb_imported = True
+except:
+    hb_imported = False
+
 from tools.bucket import upload_to_bucket
 import pickle
 
@@ -12,7 +18,7 @@ def handle_request():
     userid = request.form['userid'] + "_HBscan.pkl"
 
     # If headband library is not installed or headband is not connected
-    if 'hb' not in g or g.hb == None:
+    if hb_imported == False or 'hb' not in g or g.hb == None:
         return ["Stop, no HB"]
 
     g.hb.exec_command(SensorCommand.CommandStopSignal)
