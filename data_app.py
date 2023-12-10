@@ -4,12 +4,14 @@ import pickle
 import re
 import math
 import os
-from email.message import EmailMessage
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 import ssl
 import smtplib
-from email.utils import make_msgid
-from pathlib import Path
 
+from pathlib import Path
 
 from db_con import get_db_instance
 
@@ -112,11 +114,11 @@ for blob_name in average_distances.keys():
     upload_to_bucket('brainbit_bucket', match_perc_pkl_path, f"users_match_data/{match_perc_pkl_name}")
 
 
-def attach_image(email_message, image_path):
+def attach_image(email_message, image_path, count):
     with open(image_path, 'rb') as img_file:
-        img_data = img_file.read()
-        img_filename = Path(image_path).name
-        email_message.add_attachment(img_data, maintype='image', subtype=Path(image_path).suffix.lstrip('.'), filename=img_filename)
+        img = MIMEImage(img_file.read())
+        img.add_header('Content-ID', f'{count}')
+        email_message.attach(img)
 
 db, cur = get_db_instance()
 
@@ -170,7 +172,7 @@ for userid in range(1, 5):
     formatted_match_2 = "{:.2f}".format(match[2][1])
 
     html_body = f"""
-   <html>
+<html>
     <body style="font-family: Arial, sans-serif; color: #333;">
         <table align="center" style="width: 100%; border-collapse: collapse; margin: 0 auto;">
             <tr>
@@ -191,19 +193,19 @@ for userid in range(1, 5):
                                             <p style="line-height: 10px; font-size: 16px;">You have new matches!</p>
                                             <div style="border: 2px solid rgba(255, 255, 255,0.2); padding: 10px; margin-top: 20px; text-align: center; border-radius: 5px; box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8); background-image: url('https://cdn.discordapp.com/attachments/237096254457380865/1182868343892480010/video_background.png?ex=658642fd&is=6573cdfd&hm=1b349aae7658044e1f7a2b137d8aec89278cb7538e08f817328089d28848fdd6&'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                                 <h2 style="color: #FFFFFF; margin-top: 0;">{thatuser[0][0]}</h2>
-                                                <img src="https://cdn.discordapp.com/attachments/237096254457380865/1183447201830150256/3.png?ex=65885e18&is=6575e918&hm=830e0d657de2602a4e63ea31fea46ff7fe25933a15c82ebba3fca8571b77fcc6&" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
+                                                <img src="cid:0" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
                                                 <p>Match percentage: <strong>{formatted_match_0}%</strong></p>
                                             </div>
                                             
                                              <div style="border: 2px solid rgba(255, 255, 255,0.2); padding: 10px; margin-top: 20px; text-align: center; border-radius: 5px; box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8); background-image: url('https://cdn.discordapp.com/attachments/237096254457380865/1182868343892480010/video_background.png?ex=658642fd&is=6573cdfd&hm=1b349aae7658044e1f7a2b137d8aec89278cb7538e08f817328089d28848fdd6&'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                                 <h2 style="color: #FFFFFF; margin-top: 0;">{thatuser[1][0]}</h2>
-                                                <img src="https://cdn.discordapp.com/attachments/237096254457380865/1183447201830150256/3.png?ex=65885e18&is=6575e918&hm=830e0d657de2602a4e63ea31fea46ff7fe25933a15c82ebba3fca8571b77fcc6&" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
+                                                <img src="cid:1" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
                                                 <p>Match percentage: <strong>{formatted_match_1}%</strong></p>
                                             </div>
                                             
                                              <div style="border: 2px solid rgba(255, 255, 255,0.2); padding: 10px; margin-top: 20px; text-align: center; border-radius: 5px; box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8); background-image: url('https://cdn.discordapp.com/attachments/237096254457380865/1182868343892480010/video_background.png?ex=658642fd&is=6573cdfd&hm=1b349aae7658044e1f7a2b137d8aec89278cb7538e08f817328089d28848fdd6&'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                                 <h2 style="color: #FFFFFF; margin-top: 0;">{thatuser[2][0]}</h2>
-                                                <img src="https://cdn.discordapp.com/attachments/237096254457380865/1183447201830150256/3.png?ex=65885e18&is=6575e918&hm=830e0d657de2602a4e63ea31fea46ff7fe25933a15c82ebba3fca8571b77fcc6&" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
+                                                <img src="cid:2" alt="Profile Picture" style="width: 100px; height: 100px; margin-bottom: 0;">
                                                 <p>Match percentage: <strong>{formatted_match_2}%</strong></p>
                                             </div>
                                             
@@ -222,25 +224,21 @@ for userid in range(1, 5):
             </tr>
         </table>
     </body>
-</html>
+</html>"""
 
-
-
-    """
-
-    em = EmailMessage()
-    em['From'] = email_sender
-    em['To'] = email_receiver
-    em['Subject'] = subject
-    em.set_content("This is an automated message.")
-    em.add_alternative(html_body, subtype='html')
+    msg = MIMEMultipart()
+    msg['To'] = email_receiver
+    msg['From'] = email_sender
+    msg['Subject'] = 'Your Best Match'
+    msg_text = MIMEText(html_body, 'html')
+    msg.attach(msg_text)
 
     for i in range(3):
-      attach_image(em, thatimg[i])
+      attach_image(msg, thatimg[i], i)
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
         smtp.login(email_sender, email_password)
-        smtp.send_message(em)
+        smtp.send_message(msg)
 
     print(f"Email sent to user ID {userid}")
