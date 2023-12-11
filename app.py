@@ -5,7 +5,6 @@ import jwt
 
 import sys
 import datetime
-import bcrypt
 import traceback
 
 try: 
@@ -15,9 +14,6 @@ except:
     hb_imported = False
 
 from db_con import get_db_instance, get_db
-
-#used if you want to store your secrets in the aws valut
-#from tools.get_aws_secrets import get_secrets
 
 from tools.logging import logger
 
